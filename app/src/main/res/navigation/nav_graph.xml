@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/photoFrameFragment"
+    >
+    <!--    TODO dkeyes change back-->
+    <!--    app:startDestination="@id/mainFragment"-->
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="dev.danielkeyes.kidscareerfair.MainFragment"
+        android:label="fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_photoFrameFragment"
+            app:destination="@id/photoFrameFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_game_fragment"
+            app:destination="@id/game_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/photoFrameFragment"
+        android:name="dev.danielkeyes.kidscareerfair.PhotoFrameFragment"
+        android:label="fragment_photo_frame" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/game_fragment"
+        android:name="dev.danielkeyes.kidscareerfair.GameFragment"
+        android:label="fragment_game" >
+    </fragment>
+</navigation>
