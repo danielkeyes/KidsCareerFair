@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
-import android.widget.Space
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -109,19 +108,21 @@ class PhotoFrameFragment : Fragment() {
                     ) {
                         // Why pass in the CameraPreview, because I love compose previews and
                         // camera2 has issues rendering. This allows me to see the preview still.
-                        PhotoFrame(Modifier.fillMaxSize(),
-                            content = {
-                                CameraPreview(
-                                    modifier = it
-                                        .clipToBounds(),
-                                    lifecycleOwner = lifecycleOwner,
-                                    cameraProviderFuture = cameraProviderFuture,
-                                    getRunnableAction = { a: ListenableFuture<ProcessCameraProvider>, b: PreviewView, c: LifecycleOwner ->
-                                        getRunnableAction(a, b, c)
-                                    }
-                                )
-                            }
-                        )
+                        Box() {
+                            PhotoFrame(Modifier.fillMaxSize(),
+                                content = {
+                                    CameraPreview(
+                                        modifier = it
+                                            .clipToBounds(),
+                                        lifecycleOwner = lifecycleOwner,
+                                        cameraProviderFuture = cameraProviderFuture,
+                                        getRunnableAction = { a: ListenableFuture<ProcessCameraProvider>, b: PreviewView, c: LifecycleOwner ->
+                                            getRunnableAction(a, b, c)
+                                        }
+                                    )
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -165,25 +166,27 @@ fun PhotoFrame(
         modifier = backgroundModifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        BorderText(
-            text = "I can work with computers!",
-        )
+
         LandScapeRowPortraitColumn(
             modifier = Modifier
-                .padding(48.dp)
+                .padding(24.dp)
                 .weight(1f)
         ) {
-            content(
+            Box(
                 Modifier
-                    .weight(3f)
+                    .weight(4f)
                     .clip(RoundedCornerShape(20.dp))
                     .background(Color.Red)
-                    .border(32.dp, color = MaterialTheme.colorScheme.primary)
-            )
+                    .border(24.dp, color = MaterialTheme.colorScheme.primary)){
+                content(modifier = Modifier)
+                BorderText(text = "I can work with computers", modifier = Modifier.align(Alignment.BottomCenter))
+            }
 
-            LandScapeColumnPortraitRow(modifier = Modifier
-                .weight(1f)
-                .padding(16.dp)) {
+            LandScapeColumnPortraitRow(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(16.dp),
+            ) {
                 CustomToggle(title = "Boring", isChecked = mode.value == Mode.BORING) {
                     if (it) {
                         mode.value = Mode.BORING
@@ -217,9 +220,9 @@ fun BorderText(modifier: Modifier = Modifier, text: String) {
             .padding(16.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.primary)
-            .padding(16.dp),
+            .padding(8.dp),
         text = text,
-        style = TextStyle(fontSize = 36.sp),
+        style = TextStyle(fontSize = 32.sp),
         textAlign = TextAlign.Center,
     )
 }
@@ -307,10 +310,10 @@ fun CameraPreview(
 ) {
     Box(
         modifier = modifier
-            .clipToBounds()
+//            .clipToBounds()
     ) {
         AndroidView(
-            modifier = modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             factory = { context ->
                 PreviewView(context).apply {
                     setBackgroundColor(0xff00ff00.toInt())
@@ -384,14 +387,14 @@ fun CustomToggle(
         }
 
         Text(
-            modifier = textModifier.padding(8.dp),
+            modifier = textModifier.padding(4.dp),
             text = title,
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 18.sp,
             textAlign = TextAlign.Center,
             maxLines = 1
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Switch(
             checked = isChecked,
             onCheckedChange = onCheckedChange
