@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import android.widget.Space
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -14,6 +15,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +24,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -36,6 +40,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -161,7 +166,7 @@ fun PhotoFrame(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         BorderText(
-            text = "I can work with Computers!",
+            text = "I can work with computers!",
         )
         LandScapeRowPortraitColumn(
             modifier = Modifier
@@ -171,7 +176,9 @@ fun PhotoFrame(
             content(
                 Modifier
                     .weight(3f)
+                    .clip(RoundedCornerShape(20.dp))
                     .background(Color.Red)
+                    .border(32.dp, color = MaterialTheme.colorScheme.primary)
             )
 
             LandScapeColumnPortraitRow(modifier = Modifier
@@ -206,10 +213,14 @@ fun PhotoFrame(
 @Composable
 fun BorderText(modifier: Modifier = Modifier, text: String) {
     Text(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier
+            .padding(16.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.primary)
+            .padding(16.dp),
         text = text,
         style = TextStyle(fontSize = 36.sp),
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
     )
 }
 
@@ -364,7 +375,16 @@ fun CustomToggle(
         modifier = modifier.padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val textModifier = if(isChecked) {
+            Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.primary)
+        } else {
+            Modifier
+        }
+
         Text(
+            modifier = textModifier.padding(8.dp),
             text = title,
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 18.sp,
@@ -384,11 +404,20 @@ fun CustomToggle(
 private fun PreviewCustomToggle() {
     KidsCareerFairTheme {
         Surface {
-            CustomToggle(
-                title = "Title",
-                isChecked = true,
-                onCheckedChange = {}
-            )
+            Row {
+                CustomToggle(
+                    title = "Title",
+                    isChecked = true,
+                    onCheckedChange = {}
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                CustomToggle(
+                    title = "Title",
+                    isChecked = false,
+                    onCheckedChange = {}
+                )
+            }
+
         }
     }
 }
