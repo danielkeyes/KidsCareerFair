@@ -16,7 +16,7 @@ It is not to be reused by anyone as I have included photos of people and places.
 
 ## ScreenShot(s)
 
-<img src="./screenshots/PhotoFragment.png" alt="photo fragment" width="300"/><br>
+<img src="./screenshots/gif.gif" alt="photo fragment" width="300"/><br>
 
 ## Implementation
 
